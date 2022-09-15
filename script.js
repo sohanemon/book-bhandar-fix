@@ -55,7 +55,7 @@ const getWishlistItems = () => {
 };
 
 const getCartItems = () => {
-  return bookList.filter((book) => cart.includes(book.id.toString()));
+  return bookList.filter((book) => cart.includes(book.id));
 };
 
 const switchTab = (id) => {
@@ -78,6 +78,46 @@ const switchTab = (id) => {
   }
 };
 
+const addToCart = (id) => {
+  cart.push(id);
+};
+
+const createCard = (book) => {
+  const div = document.createElement("div");
+  div.classList.add("card");
+
+  let overview = book.overview;
+  /* ------------- here is an way to pass parameter from html ------------ */
+  /* ------------------------------- note: ------------------------------- */
+  /* --------- if we use onclick=${myFun(x,y,z)} it may run auto. -------- */
+  /* ------------ so, we should use onclick=`myFun(${x},${y})` ----------- */
+  div.innerHTML = `
+  <div class="image-container">
+    <img
+      src="${book.image}"
+      alt=""
+    />
+    <div class="button-container">
+      <button onclick="addToWishlist('${
+        book.id
+      }')" class="button"><i class="fa-solid fa-heart"></i></button>
+      <button onclick="addToCart(${
+        book.id
+      })" class="button">Add To Cart</button>
+    </div>
+  </div>
+  <div class="info-container">
+    <h1>${book.name}</h1>
+    <p>
+      ${overview.length >= 80 ? `${overview.slice(0, 80)}... ` : overview}
+    </p>
+  </div>
+
+`;
+
+  return div;
+};
+
 const showBooks = (books) => {
   const bookContainer = document.getElementById("container");
 
@@ -87,40 +127,7 @@ const showBooks = (books) => {
   });
 };
 
-const createCard = (book) => {
-  const div = document.createElement("div");
-  div.classList.add("card");
-
-  let overview = book.overview;
-
-  div.innerHTML = `
-  <div class="image-container">
-    <img
-      src="${book.Image}"
-      alt=""
-    />
-    <div class="button-container">
-      <button onclick="addToWishlist('${book.id}')" class="button"><i class="fa-solid fa-heart"></i></button>
-      <button onclick="AddToCart" class="button">Add To Cart</button>
-    </div>
-  </div>
-  <div class="info-container">
-    <h1>${book.name}</h1>
-    <p>
-      ${overview}
-    </p>
-  </div>
-
-`;
-
-  return div;
-};
-
 showBooks(bookList);
-
-const addToCart = (id) => {
-  cart.push(id);
-};
 
 const addToWishlist = (id) => {
   if (wishlistItems.indexOf(id) === -1) {
@@ -130,8 +137,7 @@ const addToWishlist = (id) => {
 
 const displayCart = () => {
   const cart = getCartItems();
-  console.log(cart);
-
+  document.getElementById("cart").textContent = "";
   cart.forEach((book) => {
     const div = createCard(book);
     document.getElementById("cart").appendChild(div);
@@ -140,7 +146,6 @@ const displayCart = () => {
 
 const displayWishlist = () => {
   const wishlist = getWishlistItems();
-  console.log(wishlist);
 
   bookList.forEach((book) => {
     const div = createCard(book);

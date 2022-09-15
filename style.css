@@ -82,6 +82,8 @@ nav ul li:hover {
   border-radius: 12px;
   -webkit-box-shadow: 5px 5px 11px 1px rgba(0, 0, 0, 0.4);
   box-shadow: 5px 5px 11px 1px rgba(0, 0, 0, 0.4);
+  /* -------------------------------- emon ------------------------------- */
+  overflow: hidden;
 }
 
 .image-container {
