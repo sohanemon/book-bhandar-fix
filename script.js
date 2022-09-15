@@ -146,8 +146,8 @@ const displayCart = () => {
 
 const displayWishlist = () => {
   const wishlist = getWishlistItems();
-
-  bookList.forEach((book) => {
+  document.getElementById("wishlist").textContent = "";
+  wishlist.forEach((book) => {
     const div = createCard(book);
     document.getElementById("wishlist").appendChild(div);
   });
